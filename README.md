@@ -101,37 +101,37 @@ ip_address|客户端请求sdk服务器的ip地址
 名称|说明|相对路径
 ----|----|----
 geetest_controller.rb|接口请求控制器，主要处理验证初始化和二次验证接口请求|app/controllers/
-geetest_config.rb|配置id和key|app/controllers/
+geetest_config.rb|配置参数|app/controllers/
 geetest_lib.rb|核心sdk，处理各种业务|app/controllers/sdk/
 geetest_lib_result.rb|核心sdk返回数据的包装对象|app/controllers/sdk/
 routes.rb|路由配置，首页、验证初始化、二次验证接口|config/
 index.html|demo示例首页|public/
+gt.js|本地加载的js文件|public/
 Gemfile|依赖管理配置文件|
 schedule.rb|管理定时任务|config/
-get_bypass_status.rake|向极验云服务发送请求，获取当前延展呢个服务状态|lib/tasks/
+get_bypass_status.rake|向极验云服务发送请求，获取当前验证服务状态|lib/tasks/
 
-### 3.3.3 运行定时任务监控极验云状态
+### 3.3.3 运行demo
 基于 whenever 的定时任务需要用到crontab，通过whenever命令将定时任务写入crontab。
-- 定时任务执行的周期可以通过gt3-server-ruby-rails-bypass/config/schedule.rb中的every参数来定义。
+
+定时任务执行的周期可以通过gt3-server-ruby-rails-bypass/config/schedule.rb中的every参数来定义。
 ```
-gem install whenever
 cd gt3-server-ruby-rails-bypass
-whenever -w
+sudo bundle install
+sudo gem install whenever
+sudo whenever -w
 ```
 检查定时任务是否被写入crontab。
 ```
 crontab -l
 ```
-
-### 3.3.4 运行demo
+启动rails
 ```
-cd gt3-server-ruby-rails-bypass
-sudo bundle install
 sudo rails server -b 0.0.0.0 -p 3000
 ```
 在浏览器中访问`http://localhost:3000`即可看到demo界面。
 
-### 3.3.5 模拟宕机模式
+### 3.3.4 模拟宕机模式
 
 - 注意：以下模拟方式原理分为两类，一类是极验云监控接口不可用，网络不通，等同于真实情况极验云遭受攻击或者其他异常导致云端宕机；另一类是极验云监控接口正常，极验云经过自检，发现云端状态异常，而将此异常结果返回。
 

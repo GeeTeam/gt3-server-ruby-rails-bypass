@@ -7,9 +7,13 @@ class GeetestController < ApplicationController
   protect_from_forgery except: ["second_validate"] # 跳过CSRF校验
 
   def get_bypass_cache
+    bypass_cache = "fail"
     redis_key = GeetestConfig::GEETEST_BYPASS_STATUS_KEY
     redis = Redis.new(:host => GeetestConfig::REDIS_HOST, :port => GeetestConfig::REDIS_PORT)
-    bypass_cache = redis.get(redis_key)
+    redis_bypass_cache = redis.get(redis_key)
+    if redis_bypass_cache == "success"
+      bypass_cache = "success"
+    end
     return bypass_cache
   end
 
