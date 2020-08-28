@@ -13,7 +13,7 @@ class GeetestLib
   JSON_FORMAT = "1"
   NEW_CAPTCHA = true
   HTTP_TIMEOUT_DEFAULT = 5; # 单位：秒
-  VERSION = "ruby-rails:3.1.0".freeze
+  VERSION = "ruby-rails:3.1.1".freeze
   GEETEST_CHALLENGE = "geetest_challenge".freeze # 极验二次验证表单传参字段 chllenge
   GEETEST_VALIDATE = "geetest_validate".freeze # 极验二次验证表单传参字段 validate
   GEETEST_SECCODE = "geetest_seccode".freeze # 极验二次验证表单传参字段 seccode
@@ -64,6 +64,13 @@ class GeetestLib
     origin_challenge
   end
 
+  def localregister()
+    gtlog("获取当前bypass缓存状态为fail，后续流程进入宕机模式")
+    buildRegisterResult("", "")
+    gtlog("register(): 验证初始化, lib包返回信息=#{@libResult}.");
+    @libResult
+  end
+
   # 构建验证初始化返回数据
   def buildRegisterResult(origin_challenge, digestmod)
     # origin_challenge为空或者值为0代表失败
@@ -71,7 +78,7 @@ class GeetestLib
       # 本地随机生成32位字符串
       challenge = (("a".."z").to_a + (0..9).to_a).shuffle[0, 32].join
       data = {:success => 0, :gt => @geetest_id, :challenge => challenge, :new_captcha => NEW_CAPTCHA}.to_json
-      @libResult.setAll(0, data, "请求极验register接口失败，后续流程走宕机模式")
+      @libResult.setAll(0, data, "获取当前bypass缓存状态为fail，后续流程走宕机模式")
     else
       if digestmod == "md5"
         challenge = md5_encode(origin_challenge + @geetest_key)
@@ -88,7 +95,7 @@ class GeetestLib
   end
 
   # 正常流程下（即验证初始化成功），二次验证
-  def successValidate(challenge, validate, seccode, paramHash)
+  def successValidate(challenge, validate, seccode, paramHash={})
     gtlog("successValidate(): 开始二次验证 正常模式, challenge=#{challenge}, validate=#{validate}, seccode=#{seccode}.")
     unless check_param(challenge, validate, seccode)
       @libResult.setAll(0, "", "正常模式，本地校验，参数challenge、validate、seccode不可为空")
