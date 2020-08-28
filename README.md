@@ -114,6 +114,8 @@ get_bypass_status.rake|向极验云服务发送请求，获取当前延展呢个
 基于 whenever 的定时任务需要用到crontab，通过whenever命令将定时任务写入crontab。
 - 定时任务执行的周期可以通过gt3-server-ruby-rails-bypass/config/schedule.rb中的every参数来定义。
 ```
+gem install whenever
+cd gt3-server-ruby-rails-bypass
 whenever -w
 ```
 检查定时任务是否被写入crontab。
@@ -121,7 +123,7 @@ whenever -w
 crontab -l
 ```
 
-### 3.3.5 运行demo
+### 3.3.4 运行demo
 ```
 cd gt3-server-ruby-rails-bypass
 sudo bundle install
@@ -129,7 +131,7 @@ sudo rails server -b 0.0.0.0 -p 3000
 ```
 在浏览器中访问`http://localhost:3000`即可看到demo界面。
 
-### 3.3.6 模拟宕机模式
+### 3.3.5 模拟宕机模式
 
 - 注意：以下模拟方式原理分为两类，一类是极验云监控接口不可用，网络不通，等同于真实情况极验云遭受攻击或者其他异常导致云端宕机；另一类是极验云监控接口正常，极验云经过自检，发现云端状态异常，而将此异常结果返回。
 

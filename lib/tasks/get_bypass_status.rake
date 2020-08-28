@@ -34,7 +34,6 @@ namespace :geetest_bypass do
                 bypass_status = "fail"
             end
             redis.set(redis_key, bypass_status)
-            g = redis.get(redis_key)
         rescue => e
             gtlog(e.message)
         end

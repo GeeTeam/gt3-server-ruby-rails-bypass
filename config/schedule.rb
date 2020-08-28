@@ -19,7 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 env :PATH, ENV['PATH']
-set :output, "/home/wb/desktop/test_demo/ruby_test/ruby_cron.log"
+# 设定日志输出的路径
+set :output, "/opt/ruby_cron.log"
 set :environment, :development
 every 1.minutes do
     rake "geetest_bypass:get_bypass_status"
